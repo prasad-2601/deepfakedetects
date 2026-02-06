@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 interface FileUploadProps {
   onFileSelect: (file: File) => void;
   isAnalyzing: boolean;
+  acceptType?: "image" | "video";
 }
 
-const FileUpload = ({ onFileSelect, isAnalyzing }: FileUploadProps) => {
+const FileUpload = ({ onFileSelect, isAnalyzing, acceptType }: FileUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [fileType, setFileType] = useState<"image" | "video" | null>(null);
@@ -17,6 +18,8 @@ const FileUpload = ({ onFileSelect, isAnalyzing }: FileUploadProps) => {
       const isImage = file.type.startsWith("image/");
       const isVideo = file.type.startsWith("video/");
       if (!isImage && !isVideo) return;
+      if (acceptType === "image" && !isImage) return;
+      if (acceptType === "video" && !isVideo) return;
 
       setFileType(isImage ? "image" : "video");
       const url = URL.createObjectURL(file);
@@ -61,7 +64,7 @@ const FileUpload = ({ onFileSelect, isAnalyzing }: FileUploadProps) => {
       >
         <input
           type="file"
-          accept="image/*,video/*"
+          accept={acceptType === "video" ? "video/*" : acceptType === "image" ? "image/*" : "image/*,video/*"}
           onChange={handleChange}
           className="hidden"
           disabled={isAnalyzing}
