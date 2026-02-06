@@ -192,17 +192,17 @@ const Index = () => {
             CNN Architecture
           </h3>
           <div className="flex flex-wrap gap-2 font-mono text-xs">
-            {[
+          {[
               "Input 128×128×3",
               "Conv2D(32)",
-              "ReLU",
-              "MaxPool",
+              "ReLU₁",
+              "MaxPool₁",
               "Conv2D(64)",
-              "ReLU",
-              "MaxPool",
+              "ReLU₂",
+              "MaxPool₂",
               "Conv2D(128)",
-              "ReLU",
-              "MaxPool",
+              "ReLU₃",
+              "MaxPool₃",
               "Flatten",
               "Dense(128)",
               "Dropout(0.5)",
