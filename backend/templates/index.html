@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deepfake Face Detection — CNN Project</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🧠</span>
+        <span class="logo-text">DeepFake Detector</span>
+      </div>
+      <span class="badge">CNN v1.0</span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Deepfake Face Detection</h1>
+    <p class="subtitle">
+      Upload an image, video, or use your webcam to detect whether a face is
+      <span class="text-green">real</span> or
+      <span class="text-red">fake</span>
+      using a Convolutional Neural Network.
+    </p>
+
+    <!-- Mode Selector -->
+    <div class="mode-selector">
+      <button class="mode-btn active" data-mode="image" onclick="switchMode('image')">📷 Image</button>
+      <button class="mode-btn" data-mode="video" onclick="switchMode('video')">🎬 Video</button>
+      <button class="mode-btn" data-mode="webcam" onclick="switchMode('webcam')">📹 Webcam</button>
+    </div>
+
+    <!-- Upload Area (Image / Video) -->
+    <div id="upload-area" class="upload-area">
+      <div class="upload-inner" id="drop-zone">
+        <p class="upload-title">Drop a file here or click to browse</p>
+        <p class="upload-hint">JPG, PNG, MP4, AVI supported</p>
+        <input type="file" id="file-input" accept="image/*,video/*" hidden />
+      </div>
+      <!-- Preview -->
+      <div id="preview-container" class="preview-container" style="display:none;">
+        <img id="image-preview" style="display:none;" />
+        <video id="video-preview" style="display:none;" muted autoplay loop></video>
+      </div>
+      <button id="analyze-btn" class="analyze-btn" style="display:none;" onclick="analyzeFile()">
+        Analyze
+      </button>
+    </div>
+
+    <!-- Webcam Area -->
+    <div id="webcam-area" class="webcam-area" style="display:none;">
+      <video id="webcam-feed" autoplay playsinline></video>
+      <div class="webcam-controls">
+        <button id="webcam-start" class="analyze-btn" onclick="startWebcam()">Start Camera</button>
+        <button id="webcam-stop" class="analyze-btn btn-secondary" onclick="stopWebcam()" style="display:none;">Stop</button>
+      </div>
+      <p id="webcam-status" class="webcam-status"></p>
+    </div>
+
+    <!-- Result Display -->
+    <div id="result-area" class="result-area" style="display:none;">
+      <div id="result-card" class="result-card">
+        <div class="result-icon" id="result-icon"></div>
+        <div class="result-info">
+          <h2 id="result-label"></h2>
+          <p class="result-sub">Detection complete</p>
+        </div>
+        <div class="result-confidence">
+          <span id="confidence-value" class="confidence-number"></span>
+          <span class="confidence-label">CONFIDENCE</span>
+        </div>
+      </div>
+      <div class="confidence-bar-bg">
+        <div id="confidence-bar" class="confidence-bar"></div>
+      </div>
+      <p id="extra-info" class="extra-info"></p>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loading-area" class="loading-area" style="display:none;">
+      <div class="spinner"></div>
+      <p>Analyzing... Detecting faces and running CNN model</p>
+    </div>
+
+    <!-- How It Works -->
+    <div class="steps-grid">
+      <div class="step-card">
+        <span class="step-num">01</span>
+        <h3>Upload</h3>
+        <p>Drop an image/video or use webcam for live detection</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">02</span>
+        <h3>Process</h3>
+        <p>Frames extracted, faces detected with OpenCV &amp; preprocessed</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">03</span>
+        <h3>Classify</h3>
+        <p>CNN model (Conv→ReLU→Pool→Dense→Sigmoid) outputs Real/Fake</p>
+      </div>
+    </div>
+
+    <!-- CNN Architecture -->
+    <div class="arch-card">
+      <h3>🖥 CNN Architecture</h3>
+      <div class="arch-layers">
+        <span class="layer">Input 128×128×3</span>
+        <span class="layer">Conv2D(32)</span>
+        <span class="layer">ReLU</span>
+        <span class="layer">MaxPool</span>
+        <span class="layer">Conv2D(64)</span>
+        <span class="layer">ReLU</span>
+        <span class="layer">MaxPool</span>
+        <span class="layer">Conv2D(128)</span>
+        <span class="layer">ReLU</span>
+        <span class="layer">MaxPool</span>
+        <span class="layer">Flatten</span>
+        <span class="layer">Dense(128)</span>
+        <span class="layer">Dropout(0.5)</span>
+        <span class="layer">Sigmoid</span>
+      </div>
+      <p class="arch-desc">
+        The CNN learns hierarchical features: edges → textures → facial artifacts.
+        Deepfakes often have subtle blending boundaries and inconsistent skin textures
+        that the network learns to detect.
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>College Project — CNN + TensorFlow/Keras + Flask + OpenCV</p>
+  </footer>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
